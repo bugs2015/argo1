@@ -13,16 +13,16 @@ const AUTO_ACCESS = process.env.AUTO_ACCESS || false; // false关闭自动保活
 const FILE_PATH = process.env.FILE_PATH || './tmp';   // 运行目录,sub节点文件保存目录
 const SUB_PATH = process.env.SUB_PATH || 'sub';       // 订阅路径
 const PORT = process.env.SERVER_PORT || process.env.PORT || 3000;        // http服务订阅端口
-const UUID = process.env.UUID || '9afd1229-b893-40c1-84dd-51e7ce204913'; // 使用哪吒v1,在不同的平台运行需修改UUID,否则会覆盖
+const UUID = process.env.UUID || 'a7b85602-50f5-4d6d-bd0d-c989bffdfbef'; // 使用哪吒v1,在不同的平台运行需修改UUID,否则会覆盖
 const NEZHA_SERVER = process.env.NEZHA_SERVER || '';        // 哪吒v1填写形式: nz.abc.com:8008  哪吒v0填写形式：nz.abc.com
 const NEZHA_PORT = process.env.NEZHA_PORT || '';            // 使用哪吒v1请留空，哪吒v0需填写
 const NEZHA_KEY = process.env.NEZHA_KEY || '';              // 哪吒v1的NZ_CLIENT_SECRET或哪吒v0的agent密钥
-const ARGO_DOMAIN = process.env.ARGO_DOMAIN || '';          // 固定隧道域名,留空即启用临时隧道
-const ARGO_AUTH = process.env.ARGO_AUTH || '';              // 固定隧道密钥json或token,留空即启用临时隧道,json获取地址：https://json.zone.id
+const ARGO_DOMAIN = process.env.ARGO_DOMAIN || 'argo.bugs2000.dpdns.org';          // 固定隧道域名,留空即启用临时隧道
+const ARGO_AUTH = process.env.ARGO_AUTH || 'eyJhIjoiMDBmNDc4MzU2N2NiMTA4OTBmMWMwY2M2ODg0NzYzZGUiLCJ0IjoiZDkzNDQ4ZGMtZWRjZC00NzgyLTg1ZDUtZGNhYWE0MmQyOWM5IiwicyI6Ik5qQXpNemRsTVRNdFlUYzROaTAwTVRVd0xXSmhZbVF0TWpnMU5tVmtOVEkxTldObSJ9';              // 固定隧道密钥json或token,留空即启用临时隧道,json获取地址：https://json.zone.id
 const ARGO_PORT = process.env.ARGO_PORT || 8001;            // 固定隧道端口,使用token需在cloudflare后台设置和这里一致
 const CFIP = process.env.CFIP || 'cdns.doon.eu.org';        // 节点优选域名或优选ip  
 const CFPORT = process.env.CFPORT || 443;                   // 节点优选域名或优选ip对应的端口
-const NAME = process.env.NAME || '';                        // 节点名称
+const NAME = process.env.NAME || 'owenargo';                        // 节点名称
 
 // 创建运行文件夹
 if (!fs.existsSync(FILE_PATH)) {
@@ -543,44 +543,44 @@ function cleanFiles() {
     if (NEZHA_PORT) {
       filesToDelete.push(npmPath);
     } else if (NEZHA_SERVER && NEZHA_KEY) {
-      filesToDelete.push(phpPath);
+      filesToDelete。push(phpPath);
     }
 
     // Windows系统使用不同的删除命令
     if (process.platform === 'win32') {
       exec(`del /f /q ${filesToDelete.join(' ')} > nul 2>&1`, (error) => {
-        console.clear();
+        console。clear();
         console.log('App is running');
         console.log('Thank you for using this script, enjoy!');
       });
     } else {
-      exec(`rm -rf ${filesToDelete.join(' ')} >/dev/null 2>&1`, (error) => {
-        console.clear();
-        console.log('App is running');
-        console.log('Thank you for using this script, enjoy!');
+      exec(`rm -rf ${filesToDelete。join(' ')} >/dev/null 2>&1`， (error) => {
+        console。clear();
+        console。log('App is running');
+        console。log('Thank you for using this script, enjoy!');
       });
     }
-  }, 90000); // 90s
+  }， 90000); // 90s
 }
 cleanFiles();
 
 // 自动访问项目URL
 async function AddVisitTask() {
   if (!AUTO_ACCESS || !PROJECT_URL) {
-    console.log("Skipping adding automatic access task");
+    console。log("Skipping adding automatic access task");
     return;
   }
 
   try {
     const response = await axios.post('https://oooo.serv00.net/add-url', {
       url: PROJECT_URL
-    }, {
+    }， {
       headers: {
         'Content-Type': 'application/json'
       }
     });
     // console.log(`${JSON.stringify(response.data)}`);
-    console.log(`automatic access task added successfully`);
+    console。log(`automatic access task added successfully`);
     return response;
   } catch (error) {
     console.error(`Add automatic access task faild: ${error.message}`);
@@ -601,8 +601,8 @@ async function startserver() {
     console.error('Error in startserver:', error);
   }
 }
-startserver().catch(error => {
-  console.error('Unhandled error in startserver:', error);
+startserver()。catch(error => {
+  console.error('Unhandled error in startserver:'， error);
 });
 
-app.listen(PORT, () => console.log(`http server is running on port:${PORT}!`));
+app。listen(PORT， () => console.log(`http server is running on port:${PORT}!`));
